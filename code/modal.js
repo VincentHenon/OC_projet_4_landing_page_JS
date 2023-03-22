@@ -273,7 +273,6 @@ const displaySuccessMessage = () => {
   succesMessage.innerHTML= `<div class="success-message"><h4>Merci!<br/>Votre réservation a bien été reçue.</h4><button id="btn-success">fermer</button></div>`;
   form.parentNode.replaceChild(succesMessage, form);
   const content = document.querySelector(".content");
-  console.log("coucou", content)
   content.setAttribute("style", "margin: 15% auto;")
   
   document.getElementById("btn-success").addEventListener("click", closeModalClick);
@@ -297,11 +296,3 @@ function showSuccess(el) {
   inputField.setAttribute("data-error", "")
   inputField.setAttribute("data-error-visible", "false");
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/*// reset the form when page is refreshed
-window.addEventListener("load", function () {
-document.querySelector('[name="reserve"]').reset();
-});*/
-

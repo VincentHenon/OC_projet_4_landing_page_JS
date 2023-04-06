@@ -194,13 +194,13 @@ input {
 
 @keyframes shake {
   25% {
-    translate: 6px 0;
+    transform: translate(6px, 0);
   }
   50% {
-    translate: -6px 0;
+    transform: translate(-6px, 0);
   }
   75% {
-    translate: 6px 0;
+    transform: translate(6px, 0);
   }
 }
 

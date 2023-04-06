@@ -16,7 +16,7 @@ function editNav() {
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
-const formEl = document.querySelector('#form');
+const formEl = document.querySelector("#form");
 const modalClose = document.querySelector(".close");
 const firstNameEl = document.getElementById("first");
 const lastNameEl = document.getElementById("last");
@@ -64,19 +64,19 @@ function closeModalKey(e) {
 ////__________________////
 //// VALIDATION TESTS ////
 
-// conditionnal returns true if (isRequired === "") for email, contestNumber, firstName, lastName
+// conditional returns true if (isRequired === "") for email, contestNumber, firstName, lastName
 const isRequired = (value) => (value === "" ? false : true);
 
-// conditionnal returns true if length is greater or equal than "min" or less or equal than max
-const isWithinRange = (length, min, max) => (length >= min && length <= max);
+// conditional returns true if length is greater or equal than "min" or less or equal than max
+const isWithinRange = (length, min, max) => length >= min && length <= max;
 
-// conditionnal returns true if length is greater or equal than "min"
-const isLessThanMin = (length, min) => (length >= min) ? true : false;
+// conditional returns true if length is greater or equal than "min"
+const isLessThanMin = (length, min) => (length >= min ? true : false);
 
 // conditionnal returns true if value is a Number
 const isNumber = (value) => (isNaN(value) ? true : false);
 
-// conditionnal returns true if checkbox is checked
+// conditional returns true if checkbox is checked
 const isChecked = (checkbox) => (checkbox.checked ? true : false);
 
 // function returns true if (name === nameRegex)
@@ -85,7 +85,7 @@ const isNameValid = (name) => {
   return nameRegex.test(name);
 };
 
-// conditionnal returns true if email === emailRegex
+// conditional returns true if email === emailRegex
 const isEmailValid = (email) => {
   const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
   return emailRegex.test(email);
@@ -95,6 +95,7 @@ const isEmailValid = (email) => {
 
 ////_______________////
 //// FIELDS TESTS ////
+
 
 const checkFirstName = () => {
   let valid = false; // default value
@@ -108,7 +109,7 @@ const checkFirstName = () => {
   } else if (!isNameValid(firstNameValue)) {
     showError(
       firstNameEl,
-      "Vous ne pouvez pas inscrire de chiffre ni de caractère spécial dans ce champs"
+      "Seules les lettres sont autorisées pour ce champs."
     );
   } else {
     showSuccess(firstNameEl);
@@ -127,10 +128,7 @@ const checkLastName = () => {
   } else if (!isLessThanMin(lastNameValue.length, min)) {
     showError(lastNameEl, `Caractères minimum requis : ${min}.`);
   } else if (!isNameValid(lastNameValue)) {
-    showError(
-      lastNameEl,
-      "Vous ne pouvez pas inscrire de chiffre ni de caractère spécial dans ce champs"
-    );
+    showError(lastNameEl, "Seules les lettres sont autorisées pour ce champs.");
   } else {
     showSuccess(lastNameEl);
     valid = true;
@@ -164,7 +162,7 @@ const checkBirthDate = () => {
     valid = true;
   }
   return valid;
-}
+};
 
 const checkContestNumber = () => {
   let valid = false;
@@ -178,7 +176,10 @@ const checkContestNumber = () => {
   } else if (isNumber(contestNumberValue)) {
     showError(contestNumberEl, "Veuillez saisir un nombre.");
   } else if (!isWithinRange(contestNumberValue, min, max)) {
-    showError(contestNumberEl, `Veuillez saisir un nombre entre ${min} et ${max}.`);
+    showError(
+      contestNumberEl,
+      `Veuillez saisir un nombre entre ${min} et ${max}.`
+    );
   } else {
     showSuccess(contestNumberEl);
     valid = true;
@@ -203,12 +204,15 @@ const checkTermsOfUse = () => {
 
 const checkLocation = () => {
   let valid = false;
-  let locationCheckedEl = document.querySelector('input[name="location"]:checked');
-  
+  let locationCheckedEl = document.querySelector(
+    'input[name="location"]:checked'
+  );
+
   if (!locationCheckedEl) {
     showError(
-      locationEl, 
-      "Veuillez sélectionner le tournoi auquel vous voulez participer.");
+      locationEl,
+      "Veuillez sélectionner le tournoi auquel vous voulez participer."
+    );
   } else {
     showSuccess(locationEl);
     valid = true;
@@ -225,16 +229,15 @@ function showError(el, message) {
   let inputField = null;
   inputField = el.parentElement;
 
-  inputField.setAttribute("data-error", message)
-  inputField.setAttribute("data-error-visible","true")
-
+  inputField.setAttribute("data-error", message);
+  inputField.setAttribute("data-error-visible", "true");
 }
 
 function showSuccess(el) {
   let inputField = null;
-  inputField = el.parentElement
+  inputField = el.parentElement;
 
-  inputField.setAttribute("data-error", "")
+  inputField.setAttribute("data-error", "");
   inputField.setAttribute("data-error-visible", "false");
 }
 
@@ -243,13 +246,12 @@ function showSuccess(el) {
 ////_________________////
 //// FORM VALIDATION ////
 
-form.addEventListener("submit", function(e) {
+form.addEventListener("submit", function (e) {
   e.preventDefault();
   validate();
-  });
+});
 
 function validate(e) {
-  
   let data = {};
 
   let isFirstNameValid = checkFirstName();
@@ -268,28 +270,29 @@ function validate(e) {
     isContestNumberValid &&
     isTermsOfUseValid &&
     isLocationValid
-  ) {    
+  ) {
     displaySuccessMessage();
-    
-    //data to send to server
+
+    //data to send to server side
     data = {
-      firstName : firstNameEl.value,
-      lastName : lastNameEl.value,
-      email : emailEl.value,
-      birthDate : birthDateEl.value,
-      contestNumber : contestNumberEl.value,
-      city : locationChecked,
-      newsLetter: newsLetter.value
-    }
+      firstName: firstNameEl.value,
+      lastName: lastNameEl.value,
+      email: emailEl.value,
+      birthDate: birthDateEl.value,
+      contestNumber: contestNumberEl.value,
+      city: locationChecked,
+      newsLetter: newsLetter.value,
+    };
     console.log(data);
   }
-};
+}
 
 const displaySuccessMessage = () => {
   const succesMessage = document.createElement("div");
-  succesMessage.innerHTML= `<div class="success-message"><h4>Merci!<br/>Votre réservation a bien été reçue.</h4><button id="btn-success">fermer</button></div>`;
+  succesMessage.innerHTML = `<div class="success-message"><h4>Merci!<br/>Votre réservation a bien été reçue.</h4><button id="btn-success">fermer</button></div>`;
   form.parentNode.replaceChild(succesMessage, form);
   const content = document.querySelector(".content");
-  content.setAttribute("style", "margin: 15% auto;")
-  document.getElementById("btn-success").addEventListener("click", closeModalClick);
-}
+  document
+    .getElementById("btn-success")
+    .addEventListener("click", closeModalClick);
+};
